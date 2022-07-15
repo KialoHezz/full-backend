@@ -1,13 +1,15 @@
 # list > index number
 # list(())
+#  list methods > extend,insert,remove
 countries =  ['kenya', 'Uganda', 'somalia','U.S.A']
 print(countries[0])
 print(countries[0][1].upper())
 print(countries[1:])
 
-
-
-
+countries =  ['kenya', 'Uganda', 'somalia','U.S.A']
+music_countries = ['rock','regge']
+countries.extend(music_countries)
+print(countries)
 # # variable
 # name = "Hezron"
 
