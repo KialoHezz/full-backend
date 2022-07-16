@@ -1,29 +1,13 @@
-# build basic calculator
-
-# num1 = int(input('Enter first number: '))
-# num2 = int(input('Enter second number: '))
-# operation = input('Enter operation: ')
-# print(type(operation))
-# if operation == '+':
-#     print(num1 + num2 )
-# elif operation == '-':
-#     print(num1 - num2 )
-# elif operation == '*':
-#     print(num1 * num2 )
-# elif operation == '/':
-#     print(num1 / num2 )
-# elif operation == '%':
-#     print(num1 % num2 )
-# else:
-#     print("invalid operator")
+# write[w],read[r],append[a], reading/writtin[r+] and open a file
+# readable,readline,readlines
+# loop inside a file
+count_file = open('countries.txt', 'r')
+for files in count_file.readlines():
+    print(files)
+count_file.close()
 
 
+count_file = open('write.txt', 'w')
+count_file.write('woow')
 
 
-try:
-    x = int(input('Input an integer: '))
-    print(x)
-except ValueError:
-    print('Value not an integer')
-
-    # finally else
