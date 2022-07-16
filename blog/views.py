@@ -6,7 +6,7 @@ def index(request):
     context = {
         'name':name
     }
-    return render(request, 'blog/home.html',context)
+    return render(request, 'blog/index.html',context)
 
 
 def counter(request):
