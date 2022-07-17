@@ -50,6 +50,7 @@
         <img src="{% static 'assets/img/profile-img.jpeg' %}" alt="" class="img-fluid rounded-circle">
         {% if user.is_authenticated %}
         <h1 class="text-light"><a href="index.html"> Hi {{user.username}}</a></h1>
+        <a href="logout" >logout</a>
         {% else %}
         Welcome
         {% endif %}
@@ -80,7 +81,8 @@
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
       <h1>Hezron Ngoma</h1>
-      <p>I'm <span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer"></span></p>
+      <p>I'm Freelance<span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer"></span></p>
+      <img src="{% static 'assets/img/profile-img.jpeg' %}" alt="" srcset="">
     </div>
   </section><!-- End Hero -->
 

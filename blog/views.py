@@ -64,3 +64,9 @@ def login(request):
             return redirect('login')
     else:
         return render(request, 'blog/login.html')
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
+
