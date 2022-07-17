@@ -1,0 +1,19 @@
+<div class="container align-items-center">
+<h2>Register</h2>
+{% for message in messages %}
+<h3>{{message}}</h3>
+{% endfor %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <p>Username:</p>
+    <input type="text" name="username">
+    <p>Email:</p>
+    <input type="email" name="email">
+    <p>Password:</p>
+    <input type="password" name="password">
+    <p>Confirm Password:</p>
+    <input type="confirm_password" name="confirm_password"><br>
+    <input type="submit" name="submit">
+
+</form>
+</div>

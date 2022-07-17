@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index , name='homepage'),
     path('counter/', views.counter , name='counter'),
     path('objectdb/', views.objectdb , name='objectdb'),
+    path('register/', views.register , name='register'),
 
 
 ]
