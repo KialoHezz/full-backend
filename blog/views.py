@@ -5,10 +5,9 @@ from .models import Feature
 
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
-   
+    name = 'Hezron'
     context = {
-        'name':name,
-        
+        'name': name
     }
     return render(request, 'blog/index.html',context)
 
@@ -48,3 +47,20 @@ def register(request):
             return redirect('register')
     else:
         return render(request, 'blog/register.html')
+
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']  
+
+        user = auth.authenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'Invalid Credentials')
+            return redirect('login')
+    else:
+        return render(request, 'blog/login.html')

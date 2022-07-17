@@ -6,6 +6,5 @@ urlpatterns = [
     path('counter/', views.counter , name='counter'),
     path('objectdb/', views.objectdb , name='objectdb'),
     path('register/', views.register , name='register'),
-
-
+    path('login/', views.login , name='login'),
 ]
