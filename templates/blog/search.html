@@ -1,0 +1,32 @@
+<!-- ======= WEATHER Section ======= -->
+      <section id="facts" class="facts">
+        <div class="container">
+          <div class="section-title">
+            <h2>Weather</h2>
+            <p>
+              1
+            </p>
+            <div class="SearchBox">
+              <form action="" method="POST">
+                {% csrf_token %}
+		            <input type="text" name="city" class="SearchBox-input" placeholder="search">
+	
+			            <button class="SearchBox-button" type="submit">
+				            <i class="SearchBox-icon  material-icons">search</i>
+			      </button>
+
+              </form>
+		
+	</div>
+          </div>
+        </div>
+      </section>
+{% if data.country_code %}
+<p>Country searched is {{city}}</p>
+    <p>country code {{data.country_code}}</p>
+   <p> Coordinate {{data.coordinates}}</p>
+    <p>Temp {{data.temp}}</p>
+    <p>Pressure {{data.pressure}}</p>
+    <p>Humidity {{data.humidity}}</p>
+
+{% endif %}

@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Feature
+import json
+import urllib.request
 
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
@@ -72,3 +74,21 @@ def logout(request):
 def post(request, pk):
     return render(request, 'blog/post.html', {'pk': pk})
 
+def search(request):
+    if request.method == 'POST':
+        city = request.POST['city']
+        res = urllib.request.urlopen('https://api.openweathermap.org/data/3.0/onecall?q='+city+'&appid=4d3fb3efa3d4488c45bb0fbbf671926a').read()
+        
+        json_data = json.loads(res)
+        print(json_data)
+        data = {
+            "country_code": str(json_data['sys']['country']),
+            "coordinates": str(json_data['coord']['lon']) + " " + str(json_data['coord']['lat']),
+            "temp": str(json_data['main']['temp']) + 'k',
+            "pressure": str(json_data['main']['pressure']),
+            "humidity": str(json_data['main']['humidity'])     
+        }
+    else:
+        data={}
+        city = ""
+    return render(request, 'blog/search.html',{'city':city, 'data':data})
