@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Feature
 import json
 import urllib.request
-
+from .models import Room,Message
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
     name = 'Hezron'
@@ -92,3 +92,30 @@ def search(request):
         data={}
         city = ""
     return render(request, 'blog/search.html',{'city':city, 'data':data})
+
+def room(request,room):
+    username = request.GET.get('username')
+    room_details = Room.objects.get(name=room)
+
+    ctx = {
+        'username': username,
+        'room_details': room_details,
+    }
+    return render(request, 'blog/room.html', ctx)
+
+# function is checking if the room 
+# and user is existing to the database or 
+# crossing checking the existance
+def checkview(request):
+    room = request.POST['room']
+    username =  request.POST['username']
+
+    if Room.objects.filter(name=room).exists():
+        return redirect('/'+room+'/?username='+username)
+
+    else:
+        new_room = Room.objects.create(name=room)
+        new_room.save()
+        return redirect('/'+room+'/?username='+username)
+
+
