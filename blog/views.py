@@ -5,6 +5,9 @@ from .models import Feature
 import json
 import urllib.request
 from .models import Room,Message
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
     name = 'Hezron'
@@ -106,16 +109,26 @@ def room(request,room):
 # function is checking if the room 
 # and user is existing to the database or 
 # crossing checking the existance
-def checkview(request):
-    room = request.POST['room']
-    username =  request.POST['username']
+# def checkview(request):
+#     room = request.POST['room']
+#     username =  request.POST['username']
 
-    if Room.objects.filter(name=room).exists():
-        return redirect('/'+room+'/?username='+username)
+#     if Room.objects.filter(name=room).exists():
+#         return redirect('/'+room+'/?username='+username)
 
-    else:
-        new_room = Room.objects.create(name=room)
-        new_room.save()
-        return redirect('/'+room+'/?username='+username)
+#     else:
+#         new_room = Room.objects.create(name=room)
+#         new_room.save()
+#         return redirect('/'+room+'/?username='+username)
 
 
+class TestAPI(APIView):
+    def get(self, request, *args, **kwargs):
+
+        data = {
+            'username': 'admin',
+            'email': 'admin@admin.com',
+            'password': 'password',
+        }
+
+        return Response(data)
