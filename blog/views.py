@@ -14,6 +14,9 @@ from .models import Student
 # Perssion for our endpoints
 from rest_framework.permissions import IsAuthenticated
 
+
+from django.http import JsonResponse
+
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
     name = 'Hezron'
@@ -80,27 +83,27 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
-# def post(request, pk):
-#     return render(request, 'blog/post.html', {'pk': pk})
+def post(request, pk):
+    return render(request, 'blog/post.html', {'pk': pk})
 
-# def search(request):
-#     if request.method == 'POST':
-#         city = request.POST['city']
-#         res = urllib.request.urlopen('https://api.openweathermap.org/data/3.0/onecall?q='+city+'&appid=4d3fb3efa3d4488c45bb0fbbf671926a').read()
+def search(request):
+    if request.method == 'POST':
+        city = request.POST['city']
+        res = urllib.request.urlopen('https://api.openweathermap.org/data/3.0/onecall?q='+city+'&appid=4d3fb3efa3d4488c45bb0fbbf671926a').read()
         
-#         json_data = json.loads(res)
-#         print(json_data)
-#         data = {
-#             "country_code": str(json_data['sys']['country']),
-#             "coordinates": str(json_data['coord']['lon']) + " " + str(json_data['coord']['lat']),
-#             "temp": str(json_data['main']['temp']) + 'k',
-#             "pressure": str(json_data['main']['pressure']),
-#             "humidity": str(json_data['main']['humidity'])     
-#         }
-#     else:
-#         data={}
-#         city = ""
-#     return render(request, 'blog/search.html',{'city':city, 'data':data})
+        json_data = json.loads(res)
+        print(json_data)
+        data = {
+            "country_code": str(json_data['sys']['country']),
+            "coordinates": str(json_data['coord']['lon']) + " " + str(json_data['coord']['lat']),
+            "temp": str(json_data['main']['temp']) + 'k',
+            "pressure": str(json_data['main']['pressure']),
+            "humidity": str(json_data['main']['humidity'])     
+        }
+    else:
+        data={}
+        city = ""
+    return render(request, 'blog/search.html',{'city':city, 'data':data})
 
 # def room(request,room):
 #     username = request.GET.get('username')
@@ -112,9 +115,9 @@ def logout(request):
 #     }
 #     return render(request, 'blog/room.html', ctx)
 
-# # function is checking if the room 
-# # and user is existing to the database or 
-# # crossing checking the existance
+# # # function is checking if the room 
+# # # and user is existing to the database or 
+# # # crossing checking the existance
 # def checkview(request):
 #     room = request.POST['room']
 #     username =  request.POST['username']
@@ -128,26 +131,47 @@ def logout(request):
 #         return redirect('/'+room+'/?username='+username)
 
 
-class TestAPI(APIView):
+# class TestAPI(APIView):
 
-    permission_classes = (IsAuthenticated, )
+#     permission_classes = (IsAuthenticated, )
 
-    def get(self, request, *args, **kwargs):
-        qs = Student.objects.all()
-        # serializer = StudentSerializer(qs, many=True)
-        # get single object
-        student1 = qs.first()
-        serializer = StudentSerializer(student1)
+#     def get(self, request, *args, **kwargs):
+#         qs = Student.objects.all()
+#         # serializer = StudentSerializer(qs, many=True)
+#         # get single object
+#         student1 = qs.first()
+#         serializer = StudentSerializer(student1)
         
-        return Response(serializer.data)
+#         return Response(serializer.data)
 
-        def post(self,request, *args, **kwargs):
-            serializer = StudentSerializer(data=request.data) #data
+#         def post(self,request, *args, **kwargs):
+#             serializer = StudentSerializer(data=request.data) #data
 
-            if serializer.is_valid():
-                serializer.save()
+#             if serializer.is_valid():
+#                 serializer.save()
 
-                return Response(serializer.data)
+#                 return Response(serializer.data)
             
-            return Response(serializer.errors)
+#             return Response(serializer.errors)
 
+# function api view
+def api(request,*args,**kwargs):
+    print(request.GET) # URL QUERY PARAMS
+    body = request.body # byte string of JSON data
+    print(body)
+
+    data = {}
+    try:
+        data = json.loads(body) # convert string JSON DATA -> Python Dict
+    except:
+        pass
+
+    print(data)
+
+    data['headers'] = dict(request.headers)
+    data['content_type'] = request.content_type
+    data['params'] = dict(request.GET)
+    ctx = {
+        "messages": "Hi Hezron, First api in your code system: in which you getting it into python client",
+    }
+    return JsonResponse(ctx)
