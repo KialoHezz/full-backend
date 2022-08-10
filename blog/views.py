@@ -5,8 +5,11 @@ from .models import Feature
 import json
 import urllib.request
 from .models import Room,Message
+# drf for building up the api 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .serializers import StudentSerializer
+from .models import Student
 
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
@@ -74,41 +77,41 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
-def post(request, pk):
-    return render(request, 'blog/post.html', {'pk': pk})
+# def post(request, pk):
+#     return render(request, 'blog/post.html', {'pk': pk})
 
-def search(request):
-    if request.method == 'POST':
-        city = request.POST['city']
-        res = urllib.request.urlopen('https://api.openweathermap.org/data/3.0/onecall?q='+city+'&appid=4d3fb3efa3d4488c45bb0fbbf671926a').read()
+# def search(request):
+#     if request.method == 'POST':
+#         city = request.POST['city']
+#         res = urllib.request.urlopen('https://api.openweathermap.org/data/3.0/onecall?q='+city+'&appid=4d3fb3efa3d4488c45bb0fbbf671926a').read()
         
-        json_data = json.loads(res)
-        print(json_data)
-        data = {
-            "country_code": str(json_data['sys']['country']),
-            "coordinates": str(json_data['coord']['lon']) + " " + str(json_data['coord']['lat']),
-            "temp": str(json_data['main']['temp']) + 'k',
-            "pressure": str(json_data['main']['pressure']),
-            "humidity": str(json_data['main']['humidity'])     
-        }
-    else:
-        data={}
-        city = ""
-    return render(request, 'blog/search.html',{'city':city, 'data':data})
+#         json_data = json.loads(res)
+#         print(json_data)
+#         data = {
+#             "country_code": str(json_data['sys']['country']),
+#             "coordinates": str(json_data['coord']['lon']) + " " + str(json_data['coord']['lat']),
+#             "temp": str(json_data['main']['temp']) + 'k',
+#             "pressure": str(json_data['main']['pressure']),
+#             "humidity": str(json_data['main']['humidity'])     
+#         }
+#     else:
+#         data={}
+#         city = ""
+#     return render(request, 'blog/search.html',{'city':city, 'data':data})
 
-def room(request,room):
-    username = request.GET.get('username')
-    room_details = Room.objects.get(name=room)
+# def room(request,room):
+#     username = request.GET.get('username')
+#     room_details = Room.objects.get(name=room)
 
-    ctx = {
-        'username': username,
-        'room_details': room_details,
-    }
-    return render(request, 'blog/room.html', ctx)
+#     ctx = {
+#         'username': username,
+#         'room_details': room_details,
+#     }
+#     return render(request, 'blog/room.html', ctx)
 
-# function is checking if the room 
-# and user is existing to the database or 
-# crossing checking the existance
+# # function is checking if the room 
+# # and user is existing to the database or 
+# # crossing checking the existance
 # def checkview(request):
 #     room = request.POST['room']
 #     username =  request.POST['username']
@@ -132,3 +135,14 @@ class TestAPI(APIView):
         }
 
         return Response(data)
+
+        def post(self,request, *args, **kwargs):
+            serializer = StudentSerializer(data=request.data) #data
+
+            if serializer.is_valid():
+                serializer.save()
+
+                return Response(serializer.data)
+            
+            return Response(serializer.errors)
+
