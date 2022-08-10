@@ -11,6 +11,9 @@ from rest_framework.response import Response
 from .serializers import StudentSerializer
 from .models import Student
 
+# Perssion for our endpoints
+from rest_framework.permissions import IsAuthenticated
+
 # Inside dictionary have Key and Value ,therefore ,to access value you can use the key
 def index(request):
     name = 'Hezron'
@@ -126,15 +129,17 @@ def logout(request):
 
 
 class TestAPI(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
     def get(self, request, *args, **kwargs):
-
-        data = {
-            'username': 'admin',
-            'email': 'admin@admin.com',
-            'password': 'password',
-        }
-
-        return Response(data)
+        qs = Student.objects.all()
+        # serializer = StudentSerializer(qs, many=True)
+        # get single object
+        student1 = qs.first()
+        serializer = StudentSerializer(student1)
+        
+        return Response(serializer.data)
 
         def post(self,request, *args, **kwargs):
             serializer = StudentSerializer(data=request.data) #data
